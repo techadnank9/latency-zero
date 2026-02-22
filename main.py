@@ -242,7 +242,7 @@ def generate_hybrid(messages, tools, confidence_threshold=0.99):
         t = _acceptance_threshold(n_tools, multi_intent)
         if multi_intent:
             expected = min(_expected_intents(text), max(1, n_tools))
-            return n_calls >= max(2, expected) and conf >= (t - 0.02)
+            return n_calls >= max(2, expected) and conf >= t
         return n_calls >= 1 and conf >= t
 
     def _choose_better(a, b, available_tools):
@@ -272,13 +272,15 @@ def generate_hybrid(messages, tools, confidence_threshold=0.99):
             return True
         if multi_intent and valid_count < max(2, _expected_intents(text)):
             return True
-        if multi_intent and conf < 0.83:
+        if multi_intent and conf < 0.88:
             return True
-        if words <= 8 and tool_count >= 3 and conf < 0.86:
+        if words <= 8 and tool_count >= 3 and conf < 0.90:
             return True
-        if words <= 10 and tool_count >= 4 and conf < 0.88:
+        if words <= 10 and tool_count >= 4 and conf < 0.92:
             return True
-        if n_calls == 0 and conf < 0.95:
+        if tool_count >= 5 and conf < 0.90:
+            return True
+        if n_calls == 0 and conf < 0.98:
             return True
         return False
 
