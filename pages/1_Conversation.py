@@ -66,7 +66,7 @@ st.markdown(
 st.title("Conversation")
 
 if "cloud_enabled" not in st.session_state:
-    st.session_state.cloud_enabled = False
+    st.session_state.cloud_enabled = True
 if "chat_messages" not in st.session_state:
     st.session_state.chat_messages = []
 if "pending_user_text" not in st.session_state:
@@ -83,8 +83,19 @@ def _toggle_cloud() -> None:
     st.session_state.cloud_enabled = not st.session_state.cloud_enabled
 _, c2 = st.columns([9.2, 0.8], vertical_alignment="top")
 with c2:
-    cloud_label = "🔴☁" if st.session_state.cloud_enabled else "🟢☁"
-    st.button(cloud_label, key="cloud_btn", help="Toggle cloud fallback", on_click=_toggle_cloud)
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stToggle"] label p {
+          font-size: 0.82rem !important;
+          color: #c7cdd8 !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.toggle("☁", value=st.session_state.cloud_enabled, key="conv_cloud_toggle")
+    st.session_state.cloud_enabled = st.session_state.conv_cloud_toggle
 
 # Render chat history in st-chat format
 for idx, item in enumerate(st.session_state.chat_messages):

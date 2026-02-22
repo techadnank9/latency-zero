@@ -21,7 +21,7 @@ if "cloud_count" not in st.session_state:
 if "last_result" not in st.session_state:
     st.session_state.last_result = None
 if "cloud_enabled" not in st.session_state:
-    st.session_state.cloud_enabled = False
+    st.session_state.cloud_enabled = True
 
 
 def _toggle_cloud() -> None:
@@ -30,44 +30,26 @@ def _toggle_cloud() -> None:
 
 st.title("Latency Zero — Hybrid Voice Agent")
 st.caption("Low Latency • Local First • Intelligent Fallback")
-_, control_col = st.columns([3, 3])
+_, control_col = st.columns([9, 1])
 with control_col:
-    st.markdown("### Cloud Fallback")
-    label = "Disable Cloud" if st.session_state.cloud_enabled else "Enable Cloud"
-    button_type = "secondary" if st.session_state.cloud_enabled else "primary"
+    # st.markdown("##### Cloud")
     st.markdown(
         """
         <style>
-        div[data-testid="stButton"] > button[kind="primary"] {
-            background-color: #16a34a;
-            border-color: #16a34a;
-            color: white;
-            font-size: 1.0rem;
-            font-weight: 700;
-            padding: 0.45rem 0.8rem;
-            min-height: 2.3rem;
-        }
-        div[data-testid="stButton"] > button[kind="secondary"] {
-            background-color: #dc2626;
-            border-color: #dc2626;
-            color: white;
-            font-size: 1.0rem;
-            font-weight: 700;
-            padding: 0.45rem 0.8rem;
-            min-height: 2.3rem;
+        div[data-testid="stToggle"] label p {
+            font-size: 0.85rem !important;
+            color: #c7cdd8 !important;
         }
         </style>
         """,
         unsafe_allow_html=True,
     )
-    st.button(
-        label,
-        key="cloud_toggle_btn",
-        use_container_width=True,
-        type=button_type,
-        on_click=_toggle_cloud,
+    st.toggle(
+        "☁",
+        value=st.session_state.cloud_enabled,
+        key="cloud_toggle_control",
     )
-    st.write(f"Current: **{'Enabled' if st.session_state.cloud_enabled else 'Disabled'}**")
+    st.session_state.cloud_enabled = st.session_state.cloud_toggle_control
 
 st.subheader("Voice Input")
 audio = st.audio_input("🎤 Speak command")
