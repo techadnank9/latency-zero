@@ -31,7 +31,7 @@ cd latency-zero
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-pip install -e /Users/adnan/Documents/cactus/python
+pip install -e ../cactus/python  # local path to the Cactus SDK checkout
 ```
 
 Set environment variables:
@@ -39,7 +39,7 @@ Set environment variables:
 ```bash
 export GEMINI_API_KEY="your_key"
 export HF_TOKEN="your_hf_token"  # needed for cactus transcribe/model downloads
-export CACTUS_BIN="/Users/adnan/Documents/cactus/venv/bin/cactus"  # recommended
+export CACTUS_BIN="/path/to/cactus/venv/bin/cactus"  # recommended
 export CONFIDENCE_THRESHOLD="0.75"   # optional
 export LOCAL_MODEL="google/functiongemma-270m-it"  # optional
 export CLOUD_MODEL="gemini-1.5-flash"  # optional
